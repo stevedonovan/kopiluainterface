@@ -142,16 +142,21 @@ namespace KopiLua
 		  return res;
 		}
 
-
-		private static int os_date (lua_State L) {
-		  CharPtr s = luaL_optstring(L, 1, "%c");
-		  DateTime stm;
-		  if (s[0] == '!') {  /* UTC? */
-			stm = DateTime.UtcNow;
-			s.inc();  /* skip `!' */
-		  }
-		  else
-			  stm = DateTime.Now;
+		private static int os_date (lua_State L)
+		{
+			CharPtr s = luaL_optstring (L, 1, "%c");
+			int tm = luaL_optint (L, 2, -1);
+			DateTime stm;
+			if (tm > -1) {
+				stm = new DateTime (1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+				stm.AddSeconds (tm);
+			} else {
+				stm = DateTime.Now;
+			}
+			if (s[0] == '!') {  /* UTC? */
+				stm = stm.ToUniversalTime();
+				s.inc ();  /* skip `!' */
+			}
 		  if (strcmp(s, "*t") == 0) {
 			lua_createtable(L, 0, 9);  /* 9 = number of fields */
 			setfield(L, "sec", stm.Second);
@@ -160,7 +165,7 @@ namespace KopiLua
 			setfield(L, "day", stm.Day);
 			setfield(L, "month", stm.Month);
 			setfield(L, "year", stm.Year);
-			setfield(L, "wday", (int)stm.DayOfWeek);
+			setfield(L, "wday", ((int)(stm.DayOfWeek))+1); // enum starts at zero
 			setfield(L, "yday", stm.DayOfYear);
 			setboolfield(L, "isdst", stm.IsDaylightSavingTime() ? 1 : 0);
 		  }

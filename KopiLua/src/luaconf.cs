@@ -1366,7 +1366,7 @@ namespace KopiLua
 
 		public static CharPtr fgets(CharPtr str, Stream stream)
 		{
-			int index = 0;
+			int index = 0, bufsz = str.chars.Length;
 			try
 			{
 				while (true)
@@ -1374,7 +1374,7 @@ namespace KopiLua
 					str[index] = (char)stream.ReadByte();
 					if (str[index] == '\n')
 						break;
-					if (index >= str.chars.Length)
+					if (index >= bufsz)
 						break;
 					index++;
 				}
