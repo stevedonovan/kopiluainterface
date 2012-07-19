@@ -1,0 +1,20 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="KopiLua\src\luaconf.cs">
+    <Files>
+      <File FileName="KopiLua\src\loadlib.cs" Line="115" Column="56" />
+      <File FileName="KopiLua\src\printf\Tools.cs" Line="677" Column="28" />
+      <File FileName="KopiLua\src\loslib.cs" Line="169" Column="39" />
+      <File FileName="KopiLua\src\lauxlib.cs" Line="63" Column="3" />
+      <File FileName="KopiLua\src\luaconf.cs" Line="1375" Column="1" />
+      <File FileName="KopiLua\src\liolib.cs" Line="278" Column="8" />
+      <File FileName="KopiLua\src\lmathlib.cs" Line="88" Column="25" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="D:\dev\lua\tests\kopiluainterface\KopiLua\src\printf\Tools.cs" line="679" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

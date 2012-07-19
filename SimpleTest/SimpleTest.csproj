@@ -11,8 +11,6 @@
     <RootNamespace>SimpleTest</RootNamespace>
     <AssemblyName>SimpleTest</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>

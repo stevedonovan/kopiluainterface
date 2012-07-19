@@ -170,10 +170,13 @@ namespace KopiLua
 			  f(L, ud);
 		  }
 #if CATCH_EXCEPTIONS
-		  catch
+		  catch(LuaException e)
 		  {
 			  if (lj.status == 0)
 				  lj.status = -1;
+		  }
+		  catch(Exception e) {
+				Console.WriteLine("uncaught {0}",e);
 		  }
 #endif
 		  L.errorJmp = lj.previous;  /* restore old error handler */

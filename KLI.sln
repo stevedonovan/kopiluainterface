@@ -123,7 +123,7 @@ Global
 		{F4F20283-8F05-4F75-BC58-86F148AA6860}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = KopiLua\KopiLua.csproj
+		StartupItem = KopiLua\Lua.csproj
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
