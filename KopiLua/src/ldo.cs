@@ -177,7 +177,8 @@ namespace KopiLua
 		  }
 		  catch(Exception e) {
 				Console.WriteLine("uncaught {0}",e);
-		  }
+				Console.WriteLine("at {0} {1}",c_lexstate.source,c_lexstate.linenumber);
+			}
 #endif
 		  L.errorJmp = lj.previous;  /* restore old error handler */
 		  return lj.status;

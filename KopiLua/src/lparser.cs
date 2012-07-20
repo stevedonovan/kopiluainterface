@@ -461,11 +461,14 @@ namespace KopiLua
 		  /* last token read was anchored in defunct function; must reanchor it */
 		  if (fs!=null) anchor_token(ls);
 		}
+		
+		static LexState c_lexstate;
 
 
 		public static Proto luaY_parser (lua_State L, ZIO z, Mbuffer buff, CharPtr name) {
 		  LexState lexstate = new LexState();
 		  FuncState funcstate = new FuncState();
+			c_lexstate = lexstate;
 		  lexstate.buff = buff;
 		  luaX_setinput(L, lexstate, z, luaS_new(L, name));
 		  open_func(lexstate, funcstate);

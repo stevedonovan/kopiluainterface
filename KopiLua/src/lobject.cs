@@ -816,7 +816,15 @@ namespace KopiLua
 		      }
 		      case 'c': {
 		        CharPtr buff = new char[2];
-		        buff[0] = (char)(int)argp[parm_index++];
+				object o = argp[parm_index++];
+				if (o is char) {
+					buff[0] = (char)o;
+				} else 
+				if (o is int) {
+					buff[0] = (char)(int)o;
+				} else {
+					Console.WriteLine("type was {0} ???",o.GetType());
+				}
 		        buff[1] = '\0';
 		        pushstr(L, buff);
 		        break;

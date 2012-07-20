@@ -31,7 +31,9 @@ namespace KopiLua
 		** Hence even when the load factor reaches 100%, performance remains good.
 		*/
 
-		internal static Node gnode(Table t, int i) { return t.node[i]; }
+		internal static Node gnode(Table t, int i) {
+			return t.node[i];
+		}
 		internal static TKey_nk gkey(Node n) { return n.i_key.nk; }
 		internal static TValue gval(Node n) { return n.i_val; }
 		internal static Node gnext(Node n) { return n.i_key.nk.next; }
@@ -64,9 +66,20 @@ namespace KopiLua
 		** for some types, it is better to avoid modulus by power of 2, as
 		** they tend to have many 2 factors.
 		*/
-		public static Node hashmod(Table t, int n) { return gnode(t, (n % ((sizenode(t) - 1) | 1))); }
+		public static Node hashmod(Table t, int n) { 
+			int idx = (int)((uint)n % ((sizenode(t) - 1) | 1));
+#if DEBUG 
+			if (idx < 0 || idx >= t.node.Length) {
+				Console.WriteLine("{0} out of bounds {1} {2} {3} {4}",sizenode(t),idx,t.node.Length,t,n);
+				Environment.Exit(0);			
+			}
+#endif
+			return gnode(t, idx);
+		}
 
-		public static Node hashpointer(Table t, object p) { return hashmod(t, p.GetHashCode()); }
+		public static Node hashpointer(Table t, object p) { 
+			return hashmod(t, p.GetHashCode());
+		}
 
 
 		/*

@@ -800,6 +800,7 @@ namespace KopiLua
 		  CharPtr strfrmt_end = strfrmt+sfl;
 		  luaL_Buffer b = new luaL_Buffer();
 		  luaL_buffinit(L, b);
+		//  try {
 		  while (strfrmt < strfrmt_end) {
 			  if (strfrmt[0] != L_ESC)
 			  {
@@ -884,6 +885,10 @@ namespace KopiLua
 				  luaL_addlstring(b, buff, (uint)strlen(buff));
 			  }
 		  }
+//		  } catch(Exception e) {
+	//		  Console.WriteLine("e wuz {0}",e);
+	//		  return luaL_error(L, "bad option to " + LUA_QL("format"));				
+	//	  }
 		  luaL_pushresult(b);
 		  return 1;
 		}
