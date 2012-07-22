@@ -357,7 +357,7 @@ namespace KopiLua
 		  CallInfo ci;
 		  markvalue(g, gt(l));
 		  lim = l.top;
-		  for (ci = l.base_ci[0]; ci <= l.ci; CallInfo.inc(ref ci)) {
+		  for (ci = l.base_ci[0]; ci != null && ci <= l.ci; CallInfo.inc(ref ci)) {
 			lua_assert(ci.top <= l.stack_last);
 			if (lim < ci.top) lim = ci.top;
 		  }

@@ -91,10 +91,13 @@ namespace KopiLua
 		  lua_pushstring(L, getenv(luaL_checkstring(L, 1)));  /* if null push nil */
 		  return 1;
 		}
-
-
+		
+		private static DateTime start_time = Process.GetCurrentProcess().StartTime;
+		private static DateTime standard = new DateTime (1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+	
 		private static int os_clock (lua_State L) {
-		  long ticks = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+		  TimeSpan elapsed = DateTime.Now - start_time;
+		  long ticks = elapsed.Ticks / TimeSpan.TicksPerMillisecond;
 		  lua_pushnumber(L, ((lua_Number)ticks)/(lua_Number)1000);
 		  return 1;
 		}
@@ -141,15 +144,14 @@ namespace KopiLua
 		  lua_pop(L, 1);
 		  return res;
 		}
-
+		
 		private static int os_date (lua_State L)
 		{
 			CharPtr s = luaL_optstring (L, 1, "%c");
 			int tm = luaL_optint (L, 2, -1);
 			DateTime stm;
 			if (tm > -1) {
-				stm = new DateTime (1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-				stm.AddSeconds (tm);
+				stm = standard + new TimeSpan(TimeSpan.TicksPerSecond*tm);
 			} else {
 				stm = DateTime.Now;
 			}
@@ -210,8 +212,9 @@ namespace KopiLua
 			int year = getfield(L, "year", -1) - 1900;
 			int isdst = getboolfield(L, "isdst");	// todo: implement this - mjf
 			t = new DateTime(year, month, day, hour, min, sec);
-		  }
-		  lua_pushnumber(L, t.Ticks);
+		  }		  
+		  long ticks = (t - standard).Ticks;
+		  lua_pushnumber(L, ticks/TimeSpan.TicksPerSecond);
 		  return 1;
 		}
 

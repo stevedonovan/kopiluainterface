@@ -1376,7 +1376,9 @@ namespace KopiLua
 			{
 				while (true)
 				{
-					str[index] = (char)stream.ReadByte();
+					int ch = stream.ReadByte();
+					if (ch == -1) break; // past EOF
+					str[index] = (char)ch;
 					if (str[index] == '\n')
 						break;
 					if (index >= bufsz)

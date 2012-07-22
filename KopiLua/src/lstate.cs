@@ -67,7 +67,12 @@ namespace KopiLua
 
 			public CallInfo this[int offset]
 			{
-				get { return values[index+offset]; }
+				get {
+					if (index + offset >= values.Length) {
+						return null;
+					}
+					return values[index+offset];
+				}
 			}
 
 			public static CallInfo operator +(CallInfo value, int offset)
@@ -116,10 +121,10 @@ namespace KopiLua
 				return ci1.index >= ci2.index;
 			}
 
-			public static CallInfo inc(ref CallInfo value)
+			public static void inc(ref CallInfo value)
 			{
 				value = value[1];
-				return value[-1];
+				//return value[-1];
 			}
 
 			public static CallInfo dec(ref CallInfo value)

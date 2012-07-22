@@ -303,9 +303,10 @@ namespace KopiLua
 				return (lua_objlen(L, -1) > 0) ? 1 : 0;  /* check whether read something */
 			}
 			l = (uint)strlen(p);
-			if (l == 0 || p[l-1] != '\n')
+			if (l == 0 || p[l-1] != '\n') {
 			  luaL_addsize(b, (int)l);
-			else {
+			  return 0;
+			} else {
 			  luaL_addsize(b, (int)(l - 1));  /* do not include `eol' */
 			  luaL_pushresult(b);  /* close buffer */
 			  return 1;  /* read at least an `eol' */
@@ -469,16 +470,16 @@ namespace KopiLua
 
 
 		private static int io_flush (lua_State L) {
-			int result = 1;
-			try {getiofile(L, IO_OUTPUT).Flush();} catch {result = 0;}
-		  return pushresult(L, result, null);
+		   Stream f = getiofile(L,IO_OUTPUT);
+		   f.Flush();
+		  return 0;
 		}
 
 
 		private static int f_flush (lua_State L) {
-			int result = 1;
-			try {tofile(L).Flush();} catch {result = 0;}
-			return pushresult(L, result, null);
+			Stream f = tofile(L);
+			f.Flush();
+			return 0;
 		}
 
 
