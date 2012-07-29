@@ -418,15 +418,14 @@ namespace KopiLua
 					 (matchbracketclass((byte)(s[0]), p, ep-1)==0)) return null;
 				  p=ep; goto init;  /* else return match(ms, s, ep); */
 				}
-				default: {
-				  if (isdigit((byte)(p[1]))) {  /* capture results (%0-%9)? */
+              }
+              if (isdigit((byte)(p[1]))) {  /* capture results (%0-%9)? */
 					s = match_capture(ms, s, (byte)(p[1]));
 					if (s == null) return null;
 					p+=2; goto init;  /* else return match(ms, s, p+2) */
-				  }
-				  goto dflt;  /* case default */
-				}
-			  }
+              }
+				  //goto dflt;  /* case default */
+              goto default;
 			}
 			case '\0': {  /* end of pattern */
 			  return s;  /* match succeeded */
@@ -434,7 +433,7 @@ namespace KopiLua
 			case '$': {
 			  if (p[1] == '\0')  /* is the `$' the last char in pattern? */
 				return (s == ms.src_end) ? s : null;  /* check end of string */
-			  else goto dflt;
+			  else goto default;
 			}
 			default: dflt: {  /* it is a pattern item */
 			  CharPtr ep = classend(ms, p);  /* points to what is next */
@@ -666,7 +665,7 @@ namespace KopiLua
 			lua_pushlstring(L, s, (uint)(e - s));  /* keep original text */
 		  }
 		  else if (lua_isstring(L, -1)==0)
-			luaL_error(L, "invalid replacement value (a %s)", luaL_typename(L, -1)); 
+			luaL_error(L, "invalid replacement value (a %s)", luaL_typename(L, -1));
 		  luaL_addvalue(b);  /* add result to accumulator */
 		}
 
@@ -887,7 +886,7 @@ namespace KopiLua
 		  }
 //		  } catch(Exception e) {
 	//		  Console.WriteLine("e wuz {0}",e);
-	//		  return luaL_error(L, "bad option to " + LUA_QL("format"));				
+	//		  return luaL_error(L, "bad option to " + LUA_QL("format"));
 	//	  }
 		  luaL_pushresult(b);
 		  return 1;

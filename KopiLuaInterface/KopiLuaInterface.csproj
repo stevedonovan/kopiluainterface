@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -12,6 +12,7 @@
     <AssemblyName>KopiLuaInterface</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,7 +42,16 @@
     <Compile Include="src\CheckType.cs" />
     <Compile Include="src\GenerateEventAssembly.cs" />
     <Compile Include="src\Lua.cs" />
+    <Compile Include="src\LuaBase.cs" />
     <Compile Include="src\LuaException.cs" />
+    <Compile Include="src\LuaFunction.cs" />
+    <Compile Include="src\LuaGlobalAttribute.cs" />
+    <Compile Include="src\LuaHideAttribute.cs" />
+    <Compile Include="src\LuaNetRunner.cs" />
+    <Compile Include="src\LuaRegistrationHelper.cs" />
+    <Compile Include="src\LuaScriptException.cs" />
+    <Compile Include="src\LuaTable.cs" />
+    <Compile Include="src\LuaUserData.cs" />
     <Compile Include="src\Metatables.cs" />
     <Compile Include="src\MethodWrapper.cs" />
     <Compile Include="src\ObjectTranslator.cs" />
@@ -53,7 +63,7 @@
       <Name>KopiLuaDll</Name>
     </ProjectReference>
     <ProjectReference Include="..\KopiLua\KopiLua.csproj">
-      <Project>{E8DDBC21-EF74-4ABA-9C49-BFC702BE25D8}</Project>
+      <Project>{B754A868-A0FB-4270-B60D-E9CFF28ED540}</Project>
       <Name>KopiLua</Name>
     </ProjectReference>
   </ItemGroup>
@@ -61,7 +71,6 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
