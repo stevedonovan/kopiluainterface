@@ -325,7 +325,7 @@ namespace LuaInterface
          * Generates an implementation of klass, if it is an interface, or
          * a subclass of klass that delegates its virtual methods to a Lua table.
          */
-        public void GenerateClass(Type klass,out Type newType,out Type[][] returnTypes)
+        public void GenerateClass(Type klass,out Type newType,out Type[][] returnTypes, LuaTable luaTable)
         {
             string typeName;
             lock(this)
@@ -360,8 +360,9 @@ namespace LuaInterface
             generator.Emit(OpCodes.Ldarg_2);
             generator.Emit(OpCodes.Stfld,returnTypesField);
             generator.Emit(OpCodes.Ret);
-            // Generates overriden versions of the klass' public virtual methods
-            MethodInfo[] classMethods=klass.GetMethods();
+            // Generates overriden versions of the klass' public and protected virtual methods
+            BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+            MethodInfo[] classMethods=klass.GetMethods(flags);
             returnTypes=new Type[classMethods.Length][];
             int i=0;
             foreach(MethodInfo method in classMethods)
@@ -375,7 +376,8 @@ namespace LuaInterface
                 }
                 else
                 {
-                    if(!method.IsPrivate && !method.IsFinal && method.IsVirtual)
+                    if(!method.IsPrivate && !method.IsFinal && method.IsVirtual
+                        && luaTable[method.Name] != null)
                     {
                         GenerateMethod(myType,method,(method.Attributes|MethodAttributes.NewSlot)^MethodAttributes.NewSlot,i,
                             luaTableField,returnTypesField,true,out returnTypes[i]);
@@ -389,6 +391,7 @@ namespace LuaInterface
                 typeof(LuaTable),new Type[0]);
             myType.DefineMethodOverride(returnTableMethod,typeof(ILuaGeneratedType).GetMethod("__luaInterface_getLuaTable"));
             generator=returnTableMethod.GetILGenerator();
+            generator.Emit(OpCodes.Ldarg_0);
             generator.Emit(OpCodes.Ldfld,luaTableField);
             generator.Emit(OpCodes.Ret);
             // Creates the type
@@ -439,8 +442,8 @@ namespace LuaInterface
                 for(int i=0;i<paramTypes.Length;i++)
                     generatorBase.Emit(OpCodes.Ldarg,i+1);
                 generatorBase.Emit(OpCodes.Call,method);
-                if(returnType == typeof(void))
-                    generatorBase.Emit(OpCodes.Pop);
+               // if(returnType == typeof(void))
+               //     generatorBase.Emit(OpCodes.Pop);
                 generatorBase.Emit(OpCodes.Ret);
             }
 
